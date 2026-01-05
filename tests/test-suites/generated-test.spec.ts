@@ -1,47 +1,47 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/loginPage';
-import { InventoryPage } from '../pages/inventoryPage';
-import { CheckoutPage } from '../pages/checkoutPage';
-import { MenuPage } from '../pages/menuPage';
+import { onLoginPage } from '../pages/loginPage';
+import { onInventoryPage } from '../pages/inventoryPage';
+import { onCheckoutPage } from '../pages/checkoutPage';
+import { onMenuPage } from '../pages/menuPage';
 
 // E2E: happy path — login, add items, remove one, checkout, confirm, logout
 test('E2E - add/remove items and complete checkout', async ({ page }) => {
-  await LoginPage.goto(page);
-  await LoginPage.login(page);
+  await onLoginPage.goto(page);
+  await onLoginPage.login(page);
 
-  await InventoryPage.addMultiple(page, [
+  await onInventoryPage.addMultiple(page, [
     'sauce-labs-backpack',
     'sauce-labs-fleece-jacket',
     'sauce-labs-bike-light',
   ]);
 
-  await InventoryPage.openCart(page);
-  await InventoryPage.removeFromCart(page, 'sauce-labs-backpack');
+  await onInventoryPage.openCart(page);
+  await onInventoryPage.removeFromCart(page, 'sauce-labs-backpack');
 
-  await CheckoutPage.startCheckout(page);
-  await CheckoutPage.fillInformation(page, 'Test', 'User', '12345');
-  await CheckoutPage.continue(page);
-  await CheckoutPage.finish(page);
+  await onCheckoutPage.startCheckout(page);
+  await onCheckoutPage.fillInformation(page, 'Test', 'User', '12345');
+  await onCheckoutPage.continue(page);
+  await onCheckoutPage.finish(page);
 
-  const confirmation = await CheckoutPage.getConfirmationText(page);
+  const confirmation = await onCheckoutPage.getConfirmationText(page);
   expect(confirmation).toContain('Thank you for your order!');
 
-  await MenuPage.openMenu(page);
-  await MenuPage.logout(page);
+  await onMenuPage.openMenu(page);
+  await onMenuPage.logout(page);
 });
 
 // Negative: missing postal code should show an error
 test('Checkout validation - missing postal code shows error', async ({ page }) => {
-  await LoginPage.goto(page);
-  await LoginPage.login(page);
+  await onLoginPage.goto(page);
+  await onLoginPage.login(page);
 
-  await InventoryPage.addToCart(page, 'sauce-labs-backpack');
-  await InventoryPage.openCart(page);
+  await onInventoryPage.addToCart(page, 'sauce-labs-backpack');
+  await onInventoryPage.openCart(page);
 
-  await CheckoutPage.startCheckout(page);
-  await CheckoutPage.fillInformation(page, 'First', 'Last', ''); // missing postal
-  await CheckoutPage.continue(page);
+  await onCheckoutPage.startCheckout(page);
+  await onCheckoutPage.fillInformation(page, 'First', 'Last', ''); // missing postal
+  await onCheckoutPage.continue(page);
 
-  const error = await CheckoutPage.getErrorText(page);
+  const error = await onCheckoutPage.getErrorText(page);
   expect(error.toLowerCase()).toContain('error');
 });

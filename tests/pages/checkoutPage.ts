@@ -14,29 +14,31 @@ export const ERROR_CONTAINER = '.error-message-container';
 
 export class CheckoutPage {
   // From cart: click checkout to go to information step
-  static async startCheckout(page: Page) {
+  async startCheckout(page: Page) {
     await buttons.click(page, CHECKOUT);
   }
 
-  static async fillInformation(page: Page, firstName: string, lastName: string, postalCode: string) {
+  async fillInformation(page: Page, firstName: string, lastName: string, postalCode: string) {
     await inputs.fill(page, FIRST_NAME, firstName);
     await inputs.fill(page, LAST_NAME, lastName);
     await inputs.fill(page, POSTAL_CODE, postalCode);
   }
 
-  static async continue(page: Page) {
+  async continue(page: Page) {
     await buttons.click(page, CONTINUE_BUTTON);
   }
 
-  static async finish(page: Page) {
+  async finish(page: Page) {
     await buttons.click(page, FINISH_BUTTON);
   }
 
-  static async getConfirmationText(page: Page): Promise<string> {
+  async getConfirmationText(page: Page): Promise<string> {
     return page.locator(ORDER_COMPLETE_HEADER).innerText();
   }
 
-  static async getErrorText(page: Page): Promise<string> {
+  async getErrorText(page: Page): Promise<string> {
     return page.locator(ERROR_CONTAINER).innerText();
   }
 }
+
+export const onCheckoutPage = new CheckoutPage();

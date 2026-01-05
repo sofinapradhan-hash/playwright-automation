@@ -9,21 +9,23 @@ export const CART_BADGE = '.shopping_cart_badge';
 export const INVENTORY_CONTAINER = '.inventory_container';
 
 export class InventoryPage {
-  static async addToCart(page: Page, itemId: string) {
+  async addToCart(page: Page, itemId: string) {
     await buttons.click(page, ADD_TO_CART(itemId));
   }
 
-  static async addMultiple(page: Page, itemIds: string[]) {
+  async addMultiple(page: Page, itemIds: string[]) {
     for (const id of itemIds) {
       await this.addToCart(page, id);
     }
   }
 
-  static async openCart(page: Page) {
+  async openCart(page: Page) {
     await buttons.click(page, CART_LINK);
   }
 
-  static async removeFromCart(page: Page, itemId: string) {
+  async removeFromCart(page: Page, itemId: string) {
     await buttons.click(page, REMOVE_FROM_CART(itemId));
   }
 }
+
+export const onInventoryPage = new InventoryPage();
