@@ -9,7 +9,7 @@ test('Login - invalid credentials show error', async ({ page }) => {
   await LoginPage.goto(page);
   await LoginPage.login(page, 'bad_user', 'bad_pass');
   const txt = await page.locator(LOGIN_ERROR).innerText();
-  expect(txt.toLowerCase()).toContain('error');
+  expect(txt.toLowerCase()).toContain('epic sadface: username and password do not match any user in this service');
 });
 
 // Critical: locked out user
