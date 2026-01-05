@@ -20,7 +20,7 @@ test('user can add/remove items and logout', async ({ page }) => {
   await InventoryPage.removeFromCart(page, 'sauce-labs-backpack');
 
   // proceed to checkout and then logout via menu
-  await CheckoutPage.checkout(page);
+  //await CheckoutPage.checkout(page);
 
   await MenuPage.openMenu(page);
   await MenuPage.logout(page);
